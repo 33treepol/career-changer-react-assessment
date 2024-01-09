@@ -27,23 +27,46 @@ const Home = () => {
 
   const [members, setMembers] = useState([]);
   const [heading, setHeading] = useState("React - Assessment");
-  const [showTable, setShowTable] = useState(undefined);
+  const [showTable, setShowTable] = useState(0); /* 0 = Not show, 1 = show UserTable, 2 = show adminTable */
 
   useEffect(()=>
   {
     setMembers(mockEmployees);
   }
-    ,[members]);
+    ,[]);
 
   function clickUserBtn() {
     setHeading("Home - User Sector");
-    setShowTable(<UserTable members={members} />);
+    setShowTable(1);
   }
 
   function clickAdminBtn() {
     setHeading("Home - Admin Sector");
-    setShowTable(<AdminTable members={members} />);
+    setShowTable(2);
+  }
 
+  function createData(name, lastname, position)
+  {
+    let randomId = undefined;
+    let newData = [];
+
+
+    do 
+    {
+      randomId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER); /* use Max number of safty that JS can have*/
+    } while (members.some((element) => element.id === randomId))
+    
+    // console.log(randomId); /* Just check ID */
+
+    newData = [...members, 
+    {
+      id: randomId,
+      name: name, 
+      lastname: lastname, 
+      position: lastname
+    }]
+    // console.log(newData); /* Just check data */
+    setMembers(newData);
   }
 
   return (
@@ -54,7 +77,8 @@ const Home = () => {
           <button className="btn-info" id="btn-user" onClick={clickUserBtn}>User Home Sector</button>
           <button className="btn-info" id="admin-user" onClick={clickAdminBtn}>Admin Home Sector</button>
         </div>
-        {showTable}
+        {showTable === 1 && <UserTable members={members} />}
+        {showTable === 2 && <AdminTable members={members} deleteData={setMembers} createData={createData} />}
       </div>
     </Layout>
   )
@@ -85,11 +109,23 @@ function UserTable({ members }) {
   );
 }
 
-function AdminTable({ members }) {
+function AdminTable({ members, deleteData, createData }) {
 
-  function deleteData()
+  const [name, setName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [position, setPosition] = useState("");
+
+  function sendDeleteData(id)
   {
-    
+    const checkData = members.filter((item) => item.id !== id);
+    deleteData(checkData);
+  }
+
+  function submitData(event)
+  {
+    event.preventDefault();
+    // console.log(name, lastname, position);
+    createData(name, lastname, position);
   }
 
   return (
@@ -97,10 +133,10 @@ function AdminTable({ members }) {
       <div className="form-container">
         <h3>Create User Here</h3>
         <form action="" className="createUserForm">
-          <input type="text" id="name" name="name" placeholder="Name" />
-          <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
-          <input type="text" id="position" name="position" placeholder="Position" />
-          <button type="submit">Save</button>
+          <input type="text" id="name" name="name" placeholder="Name" onChange={(ev)=>{setName(ev.target.value)}}/>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name" onChange={(ev)=>{setLastname(ev.target.value)}}/>
+          <input type="text" id="position" name="position" placeholder="Position" onChange={(ev)=>{setPosition(ev.target.value)}}/>
+          <button type="submit" onClick={submitData}>Save</button>
         </form>
       </div>
       <table className="Table-container">
@@ -119,7 +155,7 @@ function AdminTable({ members }) {
                 <td>{element.name}</td>
                 <td>{element.lastname}</td>
                 <td>{element.position}</td>
-                <td><button onClick={deleteData}>Delete</button></td>
+                <td><button onClick={() => {sendDeleteData(element.id)}}>Delete</button></td>
               </tr>
             );
           })}
@@ -128,7 +164,5 @@ function AdminTable({ members }) {
     </div>
   );
 }
-
-
 
 export default Home
