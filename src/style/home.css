@@ -1,0 +1,100 @@
+*
+{
+    /* outline: 1px solid red; */
+}
+
+body {
+    background-color: #D9D9D9;
+}
+
+.Home-container
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+    .Home-container h1
+    {
+        text-align: center;
+        font-size: 48px;
+    }
+    .Home-container .btn-info {
+        background-color: white;
+        box-shadow: 4px 4px 4px 0 #00000040;
+        border-color: #d9d9d900;
+        border-radius: 5px;
+        width: 178px;
+        height: 56px;
+        font-weight: 900;
+    }
+    .Home-container .btn-info:hover {
+        background-color: aliceblue;
+        box-shadow: 4px 4px 16px 0 #00000040;
+        
+    }
+
+#btn-user
+{
+    margin-right: 90px;
+}
+#admin-user
+{
+    margin-left: 90px;
+
+}
+
+.createUserForm
+{
+    display: flex;
+    justify-content: space-between;
+    flex-flow: wrap;
+}
+
+    .createUserForm input
+    {
+        width: 200px;
+        height: 30px;
+        border-radius: 5px;
+    }
+    .createUserForm input[type="text"]::placeholder
+    {
+        padding-left: 20px;
+    }
+    .createUserForm button
+    {
+        background-color: #5E5BFF;
+        border-radius: 5px;
+        color: white;
+    }
+
+
+.Table-container
+{
+    margin: 60px auto 0 auto;
+    border-collapse: collapse;
+
+}
+    .Table-container th, .Table-container td
+    {
+        width: 200px;
+        height: 36px;
+    }
+
+    .Table-container th
+    {
+        
+        background-color: #b9b9b900;
+        border: 1px solid #B9B9B9;
+    }
+
+    .Table-container td
+    {
+        background-color: #ffffff;
+        text-align: center;
+        border: 1px solid #B9B9B9;
+    }
+    .Table-container button
+    {
+        color: red;
+    }
+
